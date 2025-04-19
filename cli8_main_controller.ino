@@ -43,11 +43,6 @@ void loop()
 
     // runChase();
 
-
-    // if (currentLightIndex = LightManager::lightChannels.size() -1)
-    //   while (1);
-    // return;
-
     audioManager.audioProcessingTask();
 
     for (int i = 0; i < LightManager::lightChannels.size(); i++)
@@ -124,7 +119,7 @@ void runChase()
         if (i == currentLightIndex)
         {
             // Set the brightness for the current light
-            lightManager.setLightBrightness(i, 230);
+            lightManager.setLightBrightness(i, 160);
         }
         else
         {
