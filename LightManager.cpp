@@ -2,11 +2,11 @@
 
 using namespace std;                          //                                   2              2  2   2   2
                                               // 1   2   3   4   5   6   7   8  9  10 11  12  13  14 15  16  17
-const vector<int> LightManager::lightChannels = {13, 25, 14, 27, 2, 26, 33, 12, 0, 4, 32, 16, 5, 18, 17, 23, 19};
+// const vector<int> LightManager::lightChannels = {13, 25, 14, 27, 2, 26, 33, 12, 0, 4, 32, 16, 5, 18, 17, 23, 19};
 
 // 10
 
-// const vector<int> LightManager::lightChannels = {16, 17, 18, 5, 19, 23, 32};
+const vector<int> LightManager::lightChannels = {13, 14, 27, 12, 16, 5, 18, 17};
 
 // SECCION A
                                                 //gr ve am  ve  az  r   vi  r

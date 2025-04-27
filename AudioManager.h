@@ -4,7 +4,7 @@
 #include <arduinoFFT.h>
 #include "DisplayManager.h"
 
-#define BANDS_COUNT 17
+#define BANDS_COUNT 8
 #define SAMPLES 1024
 #define SAMPLING_FREQUENCY 44100
 #define AVERAGE_WINDOW_SIZE 5
