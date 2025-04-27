@@ -36,7 +36,7 @@ void loop()
 
     if (currentMillis - potMillis >= 200) {
         potMillis = currentMillis;
-        readMasterPotentiometer();
+        readSecondaryPotentiometer();
     }
 
     // displayManager.clear();
@@ -59,9 +59,29 @@ void loop()
     // displayManager.draw();
 }
 
-void readMasterPotentiometer()
+// void readMasterPotentiometer()
+// {
+//     int potValue = analogRead(SENS_POT_PIN_MASTER); // Read potentiometer value (0 to 4095)
+
+//     // Normalize the potentiometer value to a 0.0 to 1.0 range
+//     float normalizedPot = (float)potValue / 4095.0f;
+
+//     // Apply an exponential function to create a logarithmic-like curve
+//     // Adjust the exponent to fine-tune the response curve
+//     float exponent = 4.0f; // Try values between 2.0 and 5.0
+//     float adjustedPot = powf(normalizedPot, exponent);
+
+//     // Map the adjusted potentiometer value to your desired sensitivity range
+//     int minSensitivity = 100;    // Minimum sensitivity value
+//     int maxSensitivity = 3000;   // Maximum sensitivity value
+//     int sensitivity = minSensitivity + (int)(adjustedPot * (maxSensitivity - minSensitivity));
+
+//     audioManager.sensitivity = sensitivity;
+// }
+
+void readSecondaryPotentiometer()
 {
-    int potValue = analogRead(SENS_POT_PIN_MASTER); // Read potentiometer value (0 to 4095)
+    int potValue = analogRead(SENS_POT_PIN_SECONDARY); // Read secondary potentiometer value (0 to 4095)
 
     // Normalize the potentiometer value to a 0.0 to 1.0 range
     float normalizedPot = (float)potValue / 4095.0f;
@@ -77,17 +97,6 @@ void readMasterPotentiometer()
     int sensitivity = minSensitivity + (int)(adjustedPot * (maxSensitivity - minSensitivity));
 
     audioManager.sensitivity = sensitivity;
-}
-
-void readSecondaryPotentiometer()
-{
-    int potValue = analogRead(SENS_POT_PIN_SECONDARY); // Read secondary potentiometer value (0 to 4095)
-
-    // Map the raw potentiometer value directly to a 0 to 150 range
-    int secondarySensitivity = map(potValue, 0, 4095, 0, 150);
-
-    // You can store this value wherever needed, similar to how you store the master sensitivity
-    // audioManager.secondarySensitivity = secondarySensitivity;
 }
 
 void turnOnAllChannels()

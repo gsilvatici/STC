@@ -54,24 +54,15 @@ void AudioManager::processFFT() {
 void AudioManager::setFrequencyBars() {
     for (int i = 2; i < (SAMPLES / 2); i++) {
         if (vReal[i] > this->noise) { // Noise filter
-            // 18 bands
-            if (i >= 2   && i <= 3  ) bandValues[0]  += (int)vReal[i]/2;
-            if (i > 3   && i <= 5  ) bandValues[1]  += (int)vReal[i]/2;
-            if (i > 5   && i <= 7  ) bandValues[2]  += (int)vReal[i];
-            if (i > 7   && i <= 9  ) bandValues[3]  += (int)vReal[i];
-            if (i > 9   && i <= 13 ) bandValues[4]  += (int)vReal[i];
-            if (i > 13  && i <= 18 ) bandValues[5]  += (int)vReal[i];
-            if (i > 18  && i <= 25 ) bandValues[6]  += (int)vReal[i];
-            if (i > 25  && i <= 36 ) bandValues[7]  += (int)vReal[i];
-            if (i > 36  && i <= 50 ) bandValues[8]  += (int)vReal[i];
-            if (i > 50  && i <= 69 ) bandValues[9]  += (int)vReal[i];
-            if (i > 69  && i <= 97 ) bandValues[10] += (int)vReal[i];
-            if (i > 97  && i <= 135) bandValues[11] += (int)vReal[i];
-            if (i > 135 && i <= 189) bandValues[12] += (int)vReal[i];
-            if (i > 189 && i <= 220) bandValues[13] += (int)vReal[i];
-            if (i > 220 && i <= 270) bandValues[14] += (int)vReal[i];
-            if (i > 270 && i <= 310) bandValues[15] += (int)vReal[i];
-            if (i > 310 && i <= 350) bandValues[16] += (int)vReal[i];
+            // 8 bands - wider frequency distribution
+            if (i >= 2   && i <= 5  ) bandValues[0] += (int)vReal[i];  // Low bass
+            if (i > 5    && i <= 15 ) bandValues[1] += (int)vReal[i];  // Mid bass
+            if (i > 15   && i <= 35 ) bandValues[2] += (int)vReal[i];  // High bass
+            if (i > 35   && i <= 70 ) bandValues[3] += (int)vReal[i];  // Low midrange
+            if (i > 70   && i <= 140) bandValues[4] += (int)vReal[i];  // Mid midrange
+            if (i > 140  && i <= 220) bandValues[5] += (int)vReal[i];  // Upper midrange
+            if (i > 220  && i <= 300) bandValues[6] += (int)vReal[i];  // Lower treble
+            if (i > 300  && i <= 350) bandValues[7] += (int)vReal[i];  // High treble
         }
     }
 }
