@@ -8,7 +8,7 @@
 #define SAMPLES 1024
 #define SAMPLING_FREQUENCY 44100
 #define AVERAGE_WINDOW_SIZE 5
-// #define AUDIO_PIN 13
+#define HEADER 0xAB
 
 class AudioManager {
 public:
@@ -16,17 +16,15 @@ public:
     int oldBarHeights[BANDS_COUNT];
     unsigned int sensitivity;
 
-    int barHeightBuffer[BANDS_COUNT][AVERAGE_WINDOW_SIZE] = {0};
-    int bufferIndex[BANDS_COUNT] = {0}; // Track the index for each band
-
     AudioManager();
     void initialize();
     
     void audioProcessingTask();
-    void readAudioSamples();
-    void processFFT();
-    void setFrequencyBars();
+    // void readAudioSamples();
+    // void processFFT();
+    // void setFrequencyBars();
     void averageBars();
+    void receiveBars();
 
 private:
     const unsigned int noise = 1450;

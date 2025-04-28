@@ -17,7 +17,6 @@ unsigned long potMillis = 0;
 #define SENS_POT_PIN_SECONDARY 36
 volatile int sens = 1000;
 
-
 int currentLightIndex = 0;
 unsigned long lightStartTime = 0;   
 const int maxBrightness = 245;      
@@ -25,6 +24,7 @@ const unsigned long lightDuration = 5000;
 
 void setup() 
 {
+    Serial1.begin(115200, SERIAL_8N1, /*RX*/ 3, /*TX*/ 1);
     audioManager.initialize();
     displayManager.initialize();
     lightManager.initialize();
@@ -32,16 +32,12 @@ void setup()
 
 void loop() 
 {
-    currentMillis = millis();
+    // currentMillis = millis();
 
-    if (currentMillis - potMillis >= 200) {
-        potMillis = currentMillis;
-        readSecondaryPotentiometer();
-    }
-
-    // displayManager.clear();
-
-    // runChase();
+    // if (currentMillis - potMillis >= 200) {
+    //     potMillis = currentMillis;
+    //     readSecondaryPotentiometer();
+    // }
 
     audioManager.audioProcessingTask();
 
@@ -49,14 +45,6 @@ void loop()
     {
         lightManager.setLightBrightness(i, audioManager.oldBarHeights[i]);
     }
-
-
-    // for (byte band = 0; band < BANDS_COUNT; band++) 
-    // {
-    //     displayManager.drawBand(band, audioManager.oldBarHeights[band]/2);
-    // }
-
-    // displayManager.draw();
 }
 
 // void readMasterPotentiometer()
@@ -141,4 +129,9 @@ void runChase()
     {
         displayManager.drawBand(band, audioManager.oldBarHeights[band]/2);
     }
+}
+
+void drawBands()
+{
+
 }
