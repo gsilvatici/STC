@@ -6,7 +6,7 @@ using namespace std;                          //                                
 
 // 10
 
-const vector<int> LightManager::lightChannels = {13, 14, 27, 12, 16, 5, 18, 17};
+const vector<int> LightManager::lightChannels = {13, 14, 23, 12, 16, 5, 18, 17};
 
 // SECCION A
                                                 //gr ve am  ve  az  r   vi  r

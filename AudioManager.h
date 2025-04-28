@@ -14,7 +14,7 @@ class AudioManager {
 public:
     int bandValues[BANDS_COUNT];
     int oldBarHeights[BANDS_COUNT];
-    unsigned int sensitivity;
+    unsigned int sensitivity = 1000;
 
     int barHeightBuffer[BANDS_COUNT][AVERAGE_WINDOW_SIZE] = {0};
     int bufferIndex[BANDS_COUNT] = {0}; // Track the index for each band

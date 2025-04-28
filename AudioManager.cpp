@@ -20,7 +20,7 @@ void AudioManager::initialize() {
     memset(bandValues, 0, sizeof(bandValues));
 
     adc1_config_width(ADC_WIDTH_BIT_12); // Set the ADC width to 12-bit
-    adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_11); // Set attenuation for 0-3.3V range
+    adc1_config_channel_atten(ADC1_CHANNEL_4, ADC_ATTEN_DB_11); // Set attenuation for 0-3.3V range
 }
 
 void AudioManager::readAudioSamples() {
