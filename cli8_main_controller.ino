@@ -25,6 +25,7 @@ const unsigned long lightDuration = 5000;
 
 void setup() 
 {
+    Serial.begin(115200);
     audioManager.initialize();
     displayManager.initialize();
     lightManager.initialize();
@@ -39,24 +40,12 @@ void loop()
         readMasterPotentiometer();
     }
 
-    // displayManager.clear();
-
-    // runChase();
-
     audioManager.audioProcessingTask();
 
     for (int i = 0; i < LightManager::lightChannels.size(); i++)
     {
         lightManager.setLightBrightness(i, audioManager.oldBarHeights[i]);
     }
-
-
-    // for (byte band = 0; band < BANDS_COUNT; band++) 
-    // {
-    //     displayManager.drawBand(band, audioManager.oldBarHeights[band]/2);
-    // }
-
-    // displayManager.draw();
 }
 
 void readMasterPotentiometer()
@@ -83,16 +72,38 @@ void readSecondaryPotentiometer()
 {
     int potValue = analogRead(SENS_POT_PIN_SECONDARY); // Read secondary potentiometer value (0 to 4095)
 
-    // Map the raw potentiometer value directly to a 0 to 150 range
-    int secondarySensitivity = map(potValue, 0, 4095, 0, 150);
+    // Normalize the potentiometer value to a 0.0 to 1.0 range
+    float normalizedPot = (float)potValue / 4095.0f;
 
+    // Apply an exponential function to create a logarithmic-like curve
+    // Adjust the exponent to fine-tune the response curve
+    float exponent = 4.0f; // Try values between 2.0 and 5.0
+    float adjustedPot = powf(normalizedPot, exponent);
+
+    // Map the adjusted potentiometer value to your desired sensitivity range
+    int minSensitivity = 100;    // Minimum sensitivity value
+    int maxSensitivity = 3000;   // Maximum sensitivity value
+    int sensitivity = minSensitivity + (int)(adjustedPot * (maxSensitivity - minSensitivity));
+    
     // You can store this value wherever needed, similar to how you store the master sensitivity
-    // audioManager.secondarySensitivity = secondarySensitivity;
+    // audioManager.secondarySensitivity = sensitivity;
 }
 
 void turnOnAllChannels()
 {
 
+}
+
+void drawBands()
+{
+    displayManager.clear();
+
+    for (byte band = 0; band < BANDS_COUNT; band++) 
+    {
+        displayManager.drawBand(band, audioManager.oldBarHeights[band]/2);
+    }
+
+    displayManager.draw();
 }
 
 void runChase()

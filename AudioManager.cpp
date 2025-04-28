@@ -18,6 +18,7 @@ void AudioManager::initialize() {
     memset(peak, 0, sizeof(peak));
     memset(oldBarHeights, 0, sizeof(oldBarHeights));
     memset(bandValues, 0, sizeof(bandValues));
+    memset(sendBandValues, 0, sizeof(sendBandValues));
 
     adc1_config_width(ADC_WIDTH_BIT_12); // Set the ADC width to 12-bit
     adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_11); // Set attenuation for 0-3.3V range
@@ -42,6 +43,7 @@ void AudioManager::audioProcessingTask()
     processFFT();
     setFrequencyBars();
     averageBars();
+    sendBars();
 }
 
 void AudioManager::processFFT() {
@@ -72,6 +74,16 @@ void AudioManager::setFrequencyBars() {
             if (i > 220 && i <= 270) bandValues[14] += (int)vReal[i];
             if (i > 270 && i <= 310) bandValues[15] += (int)vReal[i];
             if (i > 310 && i <= 350) bandValues[16] += (int)vReal[i];
+        
+        
+            if (i >= 2   && i <= 5  ) sendBandValues[0] += (int)vReal[i];  // Low bass
+            if (i > 5    && i <= 15 ) sendBandValues[1] += (int)vReal[i];  // Mid bass
+            if (i > 15   && i <= 35 ) sendBandValues[2] += (int)vReal[i];  // High bass
+            if (i > 35   && i <= 70 ) sendBandValues[3] += (int)vReal[i];  // Low midrange
+            if (i > 70   && i <= 140) sendBandValues[4] += (int)vReal[i];  // Mid midrange
+            if (i > 140  && i <= 220) sendBandValues[5] += (int)vReal[i];  // Upper midrange
+            if (i > 220  && i <= 300) sendBandValues[6] += (int)vReal[i];  // Lower treble
+            if (i > 300  && i <= 350) sendBandValues[7] += (int)vReal[i];  // High treble
         }
     }
 }
@@ -87,7 +99,16 @@ void AudioManager::averageBars()
         }
 
         oldBarHeights[band] = smoothedBarHeight;
-
         bandValues[band] = 0;
     }
+}
+
+void AudioManager::sendBars() {
+  const uint8_t HEADER = 0xAB;  
+  Serial.write(HEADER);
+  for (uint8_t i = 0; i < SEND_BANDS_COUNT; i++) {
+    uint16_t v = sendBandValues[i];     // each is up to e.g. 0–1023 or more
+    Serial.write(uint8_t(v & 0xFF));       // LSB
+    Serial.write(uint8_t((v >> 8) & 0xFF)); // MSB
+  }
 }
