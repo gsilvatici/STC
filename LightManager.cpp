@@ -48,8 +48,8 @@ void LightManager::setLightBrightness(unsigned int lightIndex, unsigned int brig
     //     brightness = 150;
 
 
-    if (brightness > 230)
-        brightness = 230;
+    if (brightness > 240)
+        brightness = 240;
 
     lights[lightIndex]->setBrightness(brightness);
 }

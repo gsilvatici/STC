@@ -71,7 +71,7 @@ void AudioManager::audioProcessingTask()
 void AudioManager::averageBars()
 {
     for (byte band = 0; band < BANDS_COUNT; band++) {
-        int newBarHeight = bandValues[band] / 500;
+        int newBarHeight = bandValues[band] / sensitivity;
         int smoothedBarHeight = (smoothFactor * newBarHeight) + ((1 - smoothFactor) * oldBarHeights[band]);
 
         if (smoothedBarHeight > peak[band]) {
@@ -86,19 +86,28 @@ void AudioManager::averageBars()
 
 void AudioManager::receiveBars()
 {
-    if (Serial1.available() >= 17) {
-    // Align to header
-    if (Serial1.peek() == HEADER) {
-        Serial1.read();  // consume the header
-        for (int i = 0; i < BANDS_COUNT; i++) {
-            uint8_t lo = Serial1.read();
-            uint8_t hi = Serial1.read();
-            bandValues[i] = uint16_t(lo) | (uint16_t(hi) << 8);
+    const size_t  PACKETLEN = 1 + (BANDS_COUNT * 2);  // 1 header + 8 * 2 bytes
+
+    // 1) Wait for the header byte
+    while (true) {
+        // this blocks until at least one byte arrives
+        int c = Serial1.read();  
+        if (c < 0) continue;      // no data yet, keep waiting
+        if (uint8_t(c) == HEADER) {
+            break;                  // header found, move on
         }
-        // now bandValues[0..7] holds your bandValues
-        // e.g. lightManager.setLightBrightness(i, bandValues[i]);
-    } else {
-        Serial1.read();  // discard junk until we find HEADER
+    // else discard and loop
     }
-  }
+
+    // 2) Read the remaining bytes of the packet
+    //    We know exactly (PACKETLEN-1) bytes follow the header
+    uint8_t buf[PACKETLEN-1];
+    Serial1.readBytes(buf, sizeof(buf));  
+
+    // 3) Unpack into bandValues[]
+    for (uint8_t i = 0; i < BANDS_COUNT; i++) {
+    uint8_t lo = buf[2*i + 0];
+    uint8_t hi = buf[2*i + 1];
+    bandValues[i] = uint16_t(lo) | (uint16_t(hi) << 8);
+    }
 }

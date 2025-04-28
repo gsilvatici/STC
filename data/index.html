@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>CLI-8</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>main power</h1>
+    <div class="slider-wrapper">
+      <input id="sensSlider" class="slider" type="range"
+             min="100" max="3000" value="1000" step="1">
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('sensSlider');
+    slider.addEventListener('input', () =>
+    {
+      fetch(`/setSens?value=${slider.value}`)
+        .catch(_ => { /* ignore */ });
+    });
+  </script>
+</body>
+</html>

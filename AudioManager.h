@@ -14,7 +14,7 @@ class AudioManager {
 public:
     int bandValues[BANDS_COUNT];
     int oldBarHeights[BANDS_COUNT];
-    unsigned int sensitivity;
+    unsigned int sensitivity = 700;
 
     AudioManager();
     void initialize();

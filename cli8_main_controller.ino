@@ -2,11 +2,13 @@
 #include "AudioManager.h"
 #include "DisplayManager.h"
 #include "LightManager.h"
+#include "ServerManager.h"
 
 // Managers
 AudioManager audioManager;
 DisplayManager displayManager;
 LightManager lightManager;
+ServerManager serverManager(audioManager);
 
 // Time
 unsigned long currentMillis = 0;
@@ -28,6 +30,7 @@ void setup()
     audioManager.initialize();
     displayManager.initialize();
     lightManager.initialize();
+    serverManager.initialize();
 }
 
 void loop() 
