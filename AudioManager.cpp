@@ -11,7 +11,7 @@
 
 AudioManager::AudioManager() 
     : sampling_period_us(round(1000000 * (1.0 / SAMPLING_FREQUENCY))),
-      FFT(vReal, vImag, SAMPLES, SAMPLING_FREQUENCY) {
+      FFT(vReal, vImag, SAMPLES, SAMPLING_FREQUENCY), sensitivity(1000) {
 }
 
 void AudioManager::initialize() {
@@ -72,12 +72,12 @@ void AudioManager::setFrequencyBars() {
             if (i > 135 && i <= 189) bandValues[12] += (int)vReal[i];
             if (i > 189 && i <= 220) bandValues[13] += (int)vReal[i];
             if (i > 220 && i <= 270) bandValues[14] += (int)vReal[i];
-            if (i > 270 && i <= 310) bandValues[15] += (int)vReal[i];
-            if (i > 310 && i <= 350) bandValues[16] += (int)vReal[i];
+            if (i > 270 && i <= 315) bandValues[15] += (int)vReal[i]*(3/4);
+            if (i > 315 && i <= 360) bandValues[16] += (int)vReal[i]*(3/4);
         
         
-            if (i >= 2   && i <= 5  ) sendBandValues[0] += (int)vReal[i];  // Low bass
-            if (i > 5    && i <= 15 ) sendBandValues[1] += (int)vReal[i];  // Mid bass
+            if (i >= 2   && i <= 5  ) sendBandValues[0] += (int)vReal[i]/2;  // Low bass
+            if (i > 5    && i <= 15 ) sendBandValues[1] += (int)vReal[i]/2;  // Mid bass
             if (i > 15   && i <= 35 ) sendBandValues[2] += (int)vReal[i];  // High bass
             if (i > 35   && i <= 70 ) sendBandValues[3] += (int)vReal[i];  // Low midrange
             if (i > 70   && i <= 140) sendBandValues[4] += (int)vReal[i];  // Mid midrange
@@ -110,5 +110,6 @@ void AudioManager::sendBars() {
     uint16_t v = sendBandValues[i];     // each is up to e.g. 0–1023 or more
     Serial.write(uint8_t(v & 0xFF));       // LSB
     Serial.write(uint8_t((v >> 8) & 0xFF)); // MSB
+    sendBandValues[i] = 0;
   }
 }
