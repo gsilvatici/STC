@@ -1,17 +1,8 @@
 #include "LightManager.h"
 
-using namespace std;                          //                                   2              2  2   2   2
+using namespace std;
                                               // 1   2   3   4   5   6   7   8  9  10 11  12  13  14 15  16  17
-const vector<int> LightManager::lightChannels = {13, 25, 14, 27, 2, 12, 33, 26, 0, 4, 32, 16, 5, 18, 17, 23, 19};
-
-// 10
-
-// const vector<int> LightManager::lightChannels = {16, 17, 18, 5, 19, 23, 32};
-
-// SECCION A
-                                                //gr ve am  ve  az  r   vi  r
-// const vector<int> LightManager::lightChannels = {12, 2, 26, 23, 19, 32, 4, 5};
-
+const vector<int> LightManager::lightChannels = {13, 25, 14, 27, 2, 26, 33, 12, 0, 4, 32, 16, 5, 18, 17, 23, 19};
 
 LightManager::LightManager() {
 }
@@ -46,7 +37,6 @@ void LightManager::setLightBrightness(unsigned int lightIndex, unsigned int brig
 
     // if (brightness < 150)
     //     brightness = 150;
-
 
     if (brightness > 230)
         brightness = 230;

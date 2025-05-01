@@ -5,6 +5,7 @@
 #include "DisplayManager.h"
 
 #define BANDS_COUNT 17
+#define SEND_BANDS_COUNT 8
 #define SAMPLES 1024
 #define SAMPLING_FREQUENCY 44100
 #define AVERAGE_WINDOW_SIZE 5
@@ -14,6 +15,7 @@ class AudioManager {
 public:
     int bandValues[BANDS_COUNT];
     int oldBarHeights[BANDS_COUNT];
+    int sendBandValues[SEND_BANDS_COUNT];
     unsigned int sensitivity;
 
     int barHeightBuffer[BANDS_COUNT][AVERAGE_WINDOW_SIZE] = {0};
@@ -27,6 +29,7 @@ public:
     void processFFT();
     void setFrequencyBars();
     void averageBars();
+    void sendBars();
 
 private:
     const unsigned int noise = 1450;
