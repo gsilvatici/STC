@@ -21,7 +21,7 @@ volatile int sens = 1000;
 int currentLightIndex = 0;
 unsigned long lightStartTime = 0;   
 const int maxBrightness = 245;      
-const unsigned long lightDuration = 5000;
+const unsigned long lightDuration = 4000;
 
 void setup() 
 {
@@ -40,6 +40,7 @@ void loop()
         readMasterPotentiometer();
     }
 
+    // runChase();
     audioManager.audioProcessingTask();
 
     for (int i = 0; i < LightManager::lightChannels.size(); i++)
@@ -62,7 +63,7 @@ void readMasterPotentiometer()
 
     // Map the adjusted potentiometer value to your desired sensitivity range
     int minSensitivity = 100;    // Minimum sensitivity value
-    int maxSensitivity = 3000;   // Maximum sensitivity value
+    int maxSensitivity = 3400;   // Maximum sensitivity value
     int sensitivity = minSensitivity + (int)(adjustedPot * (maxSensitivity - minSensitivity));
 
     audioManager.sensitivity = sensitivity;
@@ -81,8 +82,8 @@ void readSecondaryPotentiometer()
     float adjustedPot = powf(normalizedPot, exponent);
 
     // Map the adjusted potentiometer value to your desired sensitivity range
-    int minSensitivity = 100;    // Minimum sensitivity value
-    int maxSensitivity = 3000;   // Maximum sensitivity value
+    int minSensitivity = 150;    // Minimum sensitivity value
+    int maxSensitivity = 3600;   // Maximum sensitivity value
     int sensitivity = minSensitivity + (int)(adjustedPot * (maxSensitivity - minSensitivity));
     
     // You can store this value wherever needed, similar to how you store the master sensitivity
@@ -130,7 +131,7 @@ void runChase()
         if (i == currentLightIndex)
         {
             // Set the brightness for the current light
-            lightManager.setLightBrightness(i, 160);
+            lightManager.setLightBrightness(i, 130);
         }
         else
         {

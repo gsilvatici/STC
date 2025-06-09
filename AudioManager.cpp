@@ -54,11 +54,12 @@ void AudioManager::processFFT() {
 }
 
 void AudioManager::setFrequencyBars() {
+
     for (int i = 2; i < (SAMPLES / 2); i++) {
         if (vReal[i] > this->noise) { // Noise filter
             // 18 bands
-            if (i >= 2   && i <= 3  ) bandValues[0]  += (int)vReal[i]/2;
-            if (i > 3   && i <= 5  ) bandValues[1]  += (int)vReal[i]/2;
+            if (i >= 1   && i <= 3  ) bandValues[0]  += (int)(vReal[i]*0.39);
+            if (i > 3   && i <= 5  ) bandValues[1]  += (int)(vReal[i]*0.7);
             if (i > 5   && i <= 7  ) bandValues[2]  += (int)vReal[i];
             if (i > 7   && i <= 9  ) bandValues[3]  += (int)vReal[i];
             if (i > 9   && i <= 13 ) bandValues[4]  += (int)vReal[i];
@@ -72,8 +73,8 @@ void AudioManager::setFrequencyBars() {
             if (i > 135 && i <= 189) bandValues[12] += (int)vReal[i];
             if (i > 189 && i <= 220) bandValues[13] += (int)vReal[i];
             if (i > 220 && i <= 270) bandValues[14] += (int)vReal[i];
-            if (i > 270 && i <= 315) bandValues[15] += (int)vReal[i]*(3/4);
-            if (i > 315 && i <= 360) bandValues[16] += (int)vReal[i]*(3/4);
+            if (i > 270 && i <= 320) bandValues[15] += (int)(vReal[i]*(0.82));
+            if (i > 320 && i <= 360) bandValues[16] += (int)(vReal[i]*(0.82));
         
         
             if (i >= 2   && i <= 5  ) sendBandValues[0] += (int)vReal[i]/2;  // Low bass

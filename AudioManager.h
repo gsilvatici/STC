@@ -32,7 +32,7 @@ public:
     void sendBars();
 
 private:
-    const unsigned int noise = 1450;
+    const unsigned int noise = 1400;
     unsigned int sampling_period_us;
     unsigned long newTime;
     double vReal[SAMPLES];
@@ -40,6 +40,11 @@ private:
     ArduinoFFT<double> FFT;
     byte peak[BANDS_COUNT];
     const float smoothFactor = 0.32;
+
+    float agcGain   = 1.0f;                  // running gain
+    static constexpr float AGC_TARGET  = 5000.0f;
+    static constexpr float AGC_ATTACK  = 0.02f;   // faster =  larger
+    static constexpr float AGC_RELEASE = 0.005f;  // faster =  larger
 
 };
 
